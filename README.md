@@ -1,27 +1,18 @@
-# React + TypeScript + Vite
+# Sky Films
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Challenge
 
-Currently, two official plugins are available:
+Using React Router, React Query, Styled Components and Motion build a movie app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Requirements
 
-## Expanding the ESLint configuration
+- Home Page (/): Display a list of popular movies.
+- Coming Soon Page (/coming-soon): Display a list of upcoming movies.
+- Now Playing Page (/now-playing): Display a list of movies that are currently playing in theaters.
+- When a movie is clicked, create a modal that displays the movie's details.
+- Use React Query to fetch the data.
+- Use Framer Motion to recreate the animations seen in the video (navigation, movies list, modal)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Notes
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Icons: [https://heroicons.dev/?iconset=v2-20-solid]
