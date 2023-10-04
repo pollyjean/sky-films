@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import Root from "./Root";
-import { ComingSoon, ErrorPage, NowPlaying, Popular } from "./routers";
+import Root from "@/Root";
+import { ComingSoon, ErrorPage, NowPlaying, Popular } from "@/routers";
 
 export const router = createBrowserRouter([
   {

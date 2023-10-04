@@ -1,4 +1,5 @@
 const BASE_URL = "https://movies-api.nomadcoders.workers.dev";
+const IMG_URL = "https://image.tmdb.org/t/p/";
 
 export const getPopular = async () => {
   return await fetch(`${BASE_URL}/popular`).then((responsive) => responsive.json());
@@ -17,11 +18,11 @@ export const getMovie = async (id: string) => {
 };
 
 export const makeImagePath = async (image: string) => {
-  return `https://image.tmdb.org/t/p/w500${image}`;
+  return `${IMG_URL}/w500${image}`;
 };
 
 export const makeBgPath = async (image: string) => {
-  return `https://image.tmdb.org/t/p/original${image}`;
+  return `${IMG_URL}/original${image}`;
 };
 
 interface MovieList {
