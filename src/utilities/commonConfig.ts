@@ -1,29 +1,5 @@
-const BASE_URL = "https://movies-api.nomadcoders.workers.dev";
-const IMG_URL = "https://image.tmdb.org/t/p/";
-
-export const getPopular = async () => {
-  return await fetch(`${BASE_URL}/popular`).then((responsive) => responsive.json());
-};
-
-export const getNowPlaying = async () => {
-  return fetch(`${BASE_URL}/now-playing`).then((responsive) => responsive.json());
-};
-
-export const getComingSoon = async () => {
-  return fetch(`${BASE_URL}/coming-soon`).then((responsive) => responsive.json());
-};
-
-export const getMovie = async (id: string) => {
-  return fetch(`${BASE_URL}/movie?id=${id}`).then((responsive) => responsive.json());
-};
-
-export const makeImagePath = async (image: string) => {
-  return `${IMG_URL}/w500${image}`;
-};
-
-export const makeBgPath = async (image: string) => {
-  return `${IMG_URL}/original${image}`;
-};
+export const BASE_URL = "https://movies-api.nomadcoders.workers.dev";
+export const IMG_URL = "https://image.tmdb.org/t/p/";
 
 interface MovieList {
   adult: boolean;

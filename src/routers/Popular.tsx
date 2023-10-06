@@ -1,6 +1,6 @@
-import { APIResponse, getPopular } from "@/api";
 import { useQuery } from "react-query";
 import { ErrorPage, Loading } from ".";
+import { getPopular, APIResponse } from "@/utilities";
 
 const Popular = () => {
   const { isLoading, isError, data } = useQuery<APIResponse>({ queryKey: ["popular"], queryFn: getPopular });
