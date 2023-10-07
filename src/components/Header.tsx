@@ -1,10 +1,23 @@
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const TitleBar = styled.header`
+  padding: 3rem;
+  color: #141414;
+`;
+
+const Menu = styled.menu`
+  list-style: none;
+  display: flex;
+  gap: 3rem;
+`;
+
+const S = { Menu, TitleBar };
 
 const Header = () => {
   return (
-    <header>
-      <h1>Sky Films</h1>
-      <ul>
+    <S.TitleBar>
+      <S.Menu>
         <li>
           <Link to="/">Popular</Link>
         </li>
@@ -14,8 +27,8 @@ const Header = () => {
         <li>
           <Link to="/now-playing">Now Playing</Link>
         </li>
-      </ul>
-    </header>
+      </S.Menu>
+    </S.TitleBar>
   );
 };
 
