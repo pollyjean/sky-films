@@ -1,6 +1,15 @@
 import { useQuery } from "react-query";
-import { ErrorPage, Loading } from ".";
-import { getPopular, APIResponse, MovieDataDetail, getMovie, makeBgPath, getMovieId, getRandom } from "@/utilities";
+import { ErrorPage, Loading } from "@/routers";
+import {
+  APIResponse,
+  MovieDataDetail,
+  getMovie,
+  makeBgPath,
+  getMovieId,
+  getRandom,
+  MovieCategory,
+  getMovieList,
+} from "@/utilities";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -15,13 +24,20 @@ const S = { List, Overlay, MovieItem, DetailModal };
 
 const M = { SequentialList, SequentialItem };
 
-const Popular = () => {
+interface MovieListProps {
+  category: MovieCategory;
+}
+
+const MovieList = ({ category }: MovieListProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const setPageBackground = useSetRecoilState(backgroundState);
   const [isOpen, setIsOpen] = useState(false);
   const [movieId, setMovieId] = useState("");
-  const { isLoading, isError, data } = useQuery<APIResponse>({ queryKey: ["popular"], queryFn: getPopular });
+  const { isLoading, isError, data } = useQuery<APIResponse>({
+    queryKey: [category],
+    queryFn: () => getMovieList(category),
+  });
   const movie = useQuery<MovieDataDetail>({
     queryKey: ["movie"],
     queryFn: () => {
@@ -91,4 +107,4 @@ const Popular = () => {
   );
 };
 
-export default Popular;
+export default MovieList;

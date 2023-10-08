@@ -1,6 +1,8 @@
 export const BASE_URL = "https://movies-api.nomadcoders.workers.dev";
 export const IMG_URL = "https://image.tmdb.org/t/p";
 
+export type MovieCategory = "popular" | "now-playing" | "coming-soon";
+
 export interface MovieInfo {
   adult?: boolean;
   backdrop_path?: string;

@@ -1,4 +1,4 @@
-import { IMG_URL } from "./commonConfig";
+import { IMG_URL } from ".";
 
 export const makeImagePath = (image: string) => {
   return `${IMG_URL}/w500${image}`;
