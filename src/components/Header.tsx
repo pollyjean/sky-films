@@ -2,8 +2,17 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const TitleBar = styled.header`
-  padding: 3rem;
-  color: #141414;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  font-family: "Teko", sans-serif;
+  text-transform: uppercase;
+  padding: 1rem;
+  color: rgba(253, 203, 110, 1);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  font-size: 3rem;
 `;
 
 const Menu = styled.menu`

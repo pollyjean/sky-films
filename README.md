@@ -16,3 +16,5 @@ Using React Router, React Query, Styled Components and Motion build a movie app
 ## Notes
 
 - Icons: [https://heroicons.dev/?iconset=v2-20-solid]
+
+<a href="https://www.freepik.com/free-vector/grunge-dusty-texture-background_3857029.htm#query=grain%20texture&position=1&from_view=keyword&track=ais">Image by kjpargeter</a> on Freepik

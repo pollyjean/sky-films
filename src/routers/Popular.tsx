@@ -1,44 +1,112 @@
 import { useQuery } from "react-query";
 import { ErrorPage, Loading } from ".";
-import { getPopular, APIResponse, makeImagePath, MovieDataDetail, getMovie, makeBgPath, getMovieId } from "@/utilities";
+import {
+  getPopular,
+  APIResponse,
+  makeImagePath,
+  MovieDataDetail,
+  getMovie,
+  makeBgPath,
+  getMovieId,
+  getRandom,
+  getVoteStar,
+} from "@/utilities";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-const ItemLink = styled(Link)`
-  display: block;
-`;
+import { useSetRecoilState } from "recoil";
+import { backgroundState } from "@/utilities/atom";
 
 const List = styled.ul`
+  position: relative;
+  z-index: 2;
   list-style: none;
   display: flex;
-  gap: 1rem 2rem;
+  gap: 3rem 2rem;
   flex-wrap: wrap;
+  max-width: 60rem;
+  padding: 3rem 0;
 `;
 
-const Figure = styled.figure`
+const ListItem = styled.li`
+  position: relative;
+  width: 10rem;
+  height: 15rem;
+  border-radius: 3px;
+`;
+
+const CardLink = styled(Link)`
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0;
   width: 10rem;
-  img {
-    border-radius: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  &:hover figcaption {
+    display: flex;
   }
+`;
+
+const Caption = styled.figcaption`
+  position: absolute;
+  z-index: 2;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  width: 100%;
+  font-size: 0.8rem;
+  text-align: center;
+  opacity: 0.8;
+  text-transform: uppercase;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.9) 20%, rgba(0, 0, 0, 0.9) 0%);
+`;
+
+const RatingStar = styled.strong`
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HalfStar = styled.span`
+  display: inline-block;
+  width: 0.5rem;
+  overflow: hidden;
 `;
 
 const DetailModal = styled.section`
   position: absolute;
-  width: 8vw;
-  height: 5vw;
+  margin: 0 20%;
+  min-height: 30rem;
   background-color: #141414;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.4);
   color: #fefefe;
+  background-position: top center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const Overlay = styled.section`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: fixed;
+  z-index: 10;
   left: 0;
   right: 0;
   top: 0;
@@ -46,16 +114,35 @@ const Overlay = styled.section`
   background-color: rgba(0, 0, 0, 0.4);
 `;
 
-const S = { Figure, List, DetailModal, ItemLink, Overlay };
+const S = { List, DetailModal, CardLink, Overlay, ListItem, HalfStar, RatingStar, Caption };
+
+const SequentialList = {
+  hidden: { opacity: 0, scale: 1 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.2,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const SequentialItem = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+  },
+};
+
+const M = { SequentialList, SequentialItem };
 
 const Popular = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const setPageBackground = useSetRecoilState(backgroundState);
   const [isOpen, setIsOpen] = useState(false);
   const [movieId, setMovieId] = useState("");
-  useEffect(() => {
-    setMovieId(getMovieId(location.search));
-    setIsOpen(Boolean(movieId));
-  }, [location.search, movieId]);
   const { isLoading, isError, data } = useQuery<APIResponse>({ queryKey: ["popular"], queryFn: getPopular });
   const movie = useQuery<MovieDataDetail>({
     queryKey: ["movie"],
@@ -66,32 +153,52 @@ const Popular = () => {
     },
     enabled: isOpen,
   });
+  const movieList = data?.results;
+  useEffect(() => {
+    if (movieList !== undefined) {
+      const movieLength = movieList?.length as number;
+      const randomIndex = getRandom(movieLength as number);
+      const randomBackground = makeBgPath(movieList[randomIndex].backdrop_path);
+      setMovieId(getMovieId(location.search));
+      setIsOpen(Boolean(movieId));
+      setPageBackground(randomBackground);
+    }
+  }, [location.search, movieId, movieList, setPageBackground]);
+
   const closeModal = () => {
-    location.search = "";
+    navigate(-1);
     setMovieId("");
     setIsOpen(false);
   };
-  const page = data?.page;
-  const movieList = data?.results;
-
   if (isError) return <ErrorPage />;
   return isLoading ? (
     <Loading />
   ) : (
     <>
-      <S.List>
+      <S.List as={motion.ul} variants={M.SequentialList} initial="hidden" animate="visible">
         {movieList?.map((item) => (
-          <li key={item.id}>
-            <S.ItemLink to={`?movie=${item.id}`}>
-              <S.Figure as={motion.figure} layoutId={`layout-${item.id}`} initial>
+          <ListItem
+            key={item.id}
+            as={motion.li}
+            variants={M.SequentialItem}
+            layoutId={`layout-${item.id}`}
+            whileHover={{ scale: 1.2, top: -20 }}
+          >
+            <S.CardLink to={`?movie=${item.id}`}>
+              <figure>
                 <img src={`${makeImagePath(item.poster_path)}`} alt="" />
-                <figcaption>{item.title}</figcaption>
-              </S.Figure>
-            </S.ItemLink>
-          </li>
+                <S.Caption>
+                  <span>{item.title}</span>
+                  <S.RatingStar title={`Vote Average : ${item.vote_average + ""}`}>
+                    {getVoteStar(item.vote_average).star}
+                    {getVoteStar(item.vote_average).half ? <S.HalfStar>⭐</S.HalfStar> : null}
+                  </S.RatingStar>
+                </S.Caption>
+              </figure>
+            </S.CardLink>
+          </ListItem>
         ))}
       </S.List>
-      <div>{page}</div>
       <AnimatePresence>
         {isOpen &&
           (isLoading ? (
