@@ -42,7 +42,20 @@ export const List = styled.ul`
   gap: 3rem 2rem;
   flex-wrap: wrap;
   max-width: 60rem;
-  padding: 8rem 0;
+  padding: 8rem 0.25rem;
+  transition: 1s all ease-in-out;
+  @media (max-width: 65rem) {
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr 4fr;
+  }
+  @media (max-width: 55rem) {
+    grid-template-columns: 3fr 3fr 3fr;
+  }
+  @media (max-width: 40rem) {
+    grid-template-columns: 2fr 2fr;
+    gap: 0.25rem 0.25rem;
+    padding: 10rem 0;
+  }
 `;
 
 export const MovieItem = styled.li`
@@ -199,6 +212,23 @@ export const Menu = styled.menu`
   a {
     display: block;
     line-height: 1;
+  }
+  transition: 1s all ease-in-out;
+  @media (max-width: 55rem) {
+    font-size: 2rem;
+    gap: 0.5rem;
+  }
+  @media (max-width: 40rem) {
+    font-size: 1.5rem;
+    gap: 0.25rem;
+  }
+  @media (max-width: 35rem) {
+    font-size: 1rem;
+    gap: 0;
+  }
+  @media (max-width: 30rem) {
+    flex-direction: column;
+    padding: 0;
   }
 `;
 
