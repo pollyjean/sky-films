@@ -1,40 +1,47 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, TitleBar, Marker } from "@/styles";
+import { MoviePaths } from "@/utilities";
+import { motion } from "framer-motion";
 
-const TitleBar = styled.header`
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  font-family: "Teko", sans-serif;
-  text-transform: uppercase;
-  padding: 1rem;
-  color: rgba(253, 203, 110, 1);
-  backdrop-filter: blur(10px);
-  width: 100%;
-  font-size: 3rem;
-`;
+const S = { Menu, TitleBar, Marker };
 
-const Menu = styled.menu`
-  list-style: none;
-  display: flex;
-  gap: 3rem;
-`;
+const MarkerSwitch = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+  },
+};
 
-const S = { Menu, TitleBar };
+const Spring = {
+  type: "spring",
+  stiffness: 700,
+  damping: 40,
+};
+
+const M = { MarkerSwitch, Spring };
 
 const Header = () => {
+  const { pathname } = useLocation();
   return (
     <S.TitleBar>
       <S.Menu>
         <li>
-          <Link to="/">Popular</Link>
+          <Link to={MoviePaths.popular}>Popular</Link>
+          {pathname === MoviePaths.popular && <S.Marker as={motion.span} layoutId="marker" transition={M.Spring} />}
         </li>
         <li>
-          <Link to="/coming-soon">Coming Soon</Link>
+          <Link to={`${MoviePaths.comingSoon}`}>Coming Soon</Link>
+          {pathname === "/" + MoviePaths.comingSoon && (
+            <S.Marker as={motion.span} layoutId="marker" transition={M.Spring} />
+          )}
         </li>
         <li>
-          <Link to="/now-playing">Now Playing</Link>
+          <Link to={`${MoviePaths.nowPlaying}`}>Now Playing</Link>
+          {pathname === "/" + MoviePaths.nowPlaying && (
+            <S.Marker as={motion.span} layoutId="marker" transition={M.Spring} />
+          )}
         </li>
       </S.Menu>
     </S.TitleBar>

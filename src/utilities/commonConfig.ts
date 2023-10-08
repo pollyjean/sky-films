@@ -1,7 +1,22 @@
 export const BASE_URL = "https://movies-api.nomadcoders.workers.dev";
 export const IMG_URL = "https://image.tmdb.org/t/p";
 
-export type MovieCategory = "popular" | "now-playing" | "coming-soon";
+enum MovieEnum {
+  nowPlaying = "now-playing",
+  comingSoon = "coming-soon",
+}
+
+export enum MovieCategory {
+  popular = "popular",
+  nowPlaying = MovieEnum.nowPlaying,
+  comingSoon = MovieEnum.comingSoon,
+}
+
+export enum MoviePaths {
+  popular = "/",
+  nowPlaying = MovieEnum.nowPlaying,
+  comingSoon = MovieEnum.comingSoon,
+}
 
 export interface MovieInfo {
   adult?: boolean;

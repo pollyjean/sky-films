@@ -1,23 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "@/Root";
 import { ComingSoon, ErrorPage, NowPlaying, Popular } from "@/routers";
+import { MoviePaths } from "./utilities";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "",
+        path: MoviePaths.popular,
         element: <Popular />,
       },
       {
-        path: "coming-soon",
+        path: MoviePaths.comingSoon,
         element: <ComingSoon />,
       },
       {
-        path: "now-playing",
+        path: MoviePaths.nowPlaying,
         element: <NowPlaying />,
       },
     ],

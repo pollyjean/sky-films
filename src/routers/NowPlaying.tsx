@@ -1,5 +1,8 @@
+import { MovieList } from "@/components";
+import { MovieCategory } from "@/utilities";
+
 const NowPlaying = () => {
-  return <div>NowPlaying</div>;
+  return <MovieList category={MovieCategory.nowPlaying} />;
 };
 
 export default NowPlaying;

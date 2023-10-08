@@ -77,7 +77,7 @@ const MovieList = ({ category }: MovieListProps) => {
             as={motion.li}
             variants={M.SequentialItem}
             layoutId={`layout-${item.id}`}
-            whileHover={{ scale: 1.2, top: -20 }}
+            whileHover={{ scale: 1.2, top: -5 }}
           >
             <MovieCard item={item} />
           </S.MovieItem>

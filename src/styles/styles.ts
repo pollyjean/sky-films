@@ -42,7 +42,7 @@ export const List = styled.ul`
   gap: 3rem 2rem;
   flex-wrap: wrap;
   max-width: 60rem;
-  padding: 3rem 0;
+  padding: 8rem 0;
 `;
 
 export const MovieItem = styled.li`
@@ -61,6 +61,7 @@ export const CardLink = styled(Link)`
   border-radius: 1rem;
   box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  z-index: 4;
   &:hover {
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
@@ -171,4 +172,43 @@ export const Overlay = styled.div`
   top: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
+`;
+
+export const TitleBar = styled.header`
+  position: fixed;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  font-family: "Teko", sans-serif;
+  text-transform: uppercase;
+  padding: 1rem;
+  color: rgba(253, 203, 110, 1);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  font-size: 3rem;
+`;
+
+export const Menu = styled.menu`
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  li {
+    position: relative;
+    padding: 0.5rem 2rem;
+  }
+  a {
+    display: block;
+    line-height: 1;
+  }
+`;
+
+export const Marker = styled.span`
+  position: absolute;
+  display: inline-flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
 `;

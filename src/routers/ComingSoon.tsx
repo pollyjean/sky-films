@@ -1,5 +1,8 @@
+import { MovieList } from "@/components";
+import { MovieCategory } from "@/utilities";
+
 const ComingSoon = () => {
-  return <div>ComingSoon</div>;
+  return <MovieList category={MovieCategory.comingSoon} />;
 };
 
 export default ComingSoon;
