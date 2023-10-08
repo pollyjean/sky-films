@@ -10,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const PageContainer = styled.div`
+  position: relative;
   width: 100%;
   margin: 0;
   height: auto;
@@ -21,17 +22,20 @@ export const PageContainer = styled.div`
 export const BackdropLayer = styled.div`
   position: fixed;
   z-index: 1;
-  width: 300%;
-  height: 300%;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   margin: 0;
-  background-image: url(/noisy.jpg);
-  background-size: 100px;
+  padding: 0;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0.9) 100%),
+    url(/noisy.png);
+  background-size: 100%, 30%;
   background-repeat: repeat;
-  opacity: 0.4;
+  backdrop-filter: blur(8px);
+  opacity: 1;
 `;
 
 export const List = styled.ul`
@@ -140,12 +144,20 @@ export const DetailModal = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  @media (max-height: 50rem) {
+    position: relative;
+    min-height: auto;
+    max-height: 90vh;
+    overflow: auto;
+    width: 95%;
+  }
 `;
 
 export const Details = styled.div`
   padding: 20rem 2rem 2rem;
   h3 {
     font-size: 3rem;
+    line-height: 1.2;
   }
   p {
     letter-spacing: 1px;
@@ -153,6 +165,7 @@ export const Details = styled.div`
   ul {
     margin-top: 1rem;
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
     li {
       display: inline-flex;
@@ -185,6 +198,7 @@ export const Overlay = styled.div`
   top: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  transition: all 1s ease-in-out;
 `;
 
 export const TitleBar = styled.header`
