@@ -29,11 +29,10 @@ const List = styled.ul`
   padding: 3rem 0;
 `;
 
-const ListItem = styled.li`
+const MovieItem = styled.li`
   position: relative;
   width: 10rem;
   height: 15rem;
-  border-radius: 3px;
 `;
 
 const CardLink = styled(Link)`
@@ -46,6 +45,9 @@ const CardLink = styled(Link)`
   border-radius: 1rem;
   box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  &:hover {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
   &:hover figcaption {
     display: flex;
   }
@@ -63,14 +65,23 @@ const Caption = styled.figcaption`
   right: 0;
   display: none;
   width: 100%;
+  padding-bottom: 0.5rem;
   font-size: 0.8rem;
   text-align: center;
-  opacity: 0.8;
+  line-height: 1;
+  opacity: 1;
   text-transform: uppercase;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.9) 20%, rgba(0, 0, 0, 0.9) 0%);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.5) 20%,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
 `;
 
 const RatingStar = styled.strong`
+  margin-top: 0.25rem;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
@@ -79,7 +90,7 @@ const RatingStar = styled.strong`
 
 const HalfStar = styled.span`
   display: inline-block;
-  width: 0.5rem;
+  width: 0.45rem;
   overflow: hidden;
 `;
 
@@ -114,7 +125,7 @@ const Overlay = styled.section`
   background-color: rgba(0, 0, 0, 0.4);
 `;
 
-const S = { List, DetailModal, CardLink, Overlay, ListItem, HalfStar, RatingStar, Caption };
+const S = { List, DetailModal, CardLink, Overlay, MovieItem, HalfStar, RatingStar, Caption };
 
 const SequentialList = {
   hidden: { opacity: 0, scale: 1 },
@@ -155,16 +166,17 @@ const Popular = () => {
   });
   const movieList = data?.results;
   useEffect(() => {
+    setMovieId(getMovieId(location.search));
+    setIsOpen(Boolean(movieId));
+  }, [location.search, movieId]);
+  useEffect(() => {
     if (movieList !== undefined) {
       const movieLength = movieList?.length as number;
       const randomIndex = getRandom(movieLength as number);
-      const randomBackground = makeBgPath(movieList[randomIndex].backdrop_path);
-      setMovieId(getMovieId(location.search));
-      setIsOpen(Boolean(movieId));
+      const randomBackground = makeBgPath(movieList[randomIndex].backdrop_path as string);
       setPageBackground(randomBackground);
     }
-  }, [location.search, movieId, movieList, setPageBackground]);
-
+  }, [movieList, setPageBackground]);
   const closeModal = () => {
     navigate(-1);
     setMovieId("");
@@ -177,7 +189,7 @@ const Popular = () => {
     <>
       <S.List as={motion.ul} variants={M.SequentialList} initial="hidden" animate="visible">
         {movieList?.map((item) => (
-          <ListItem
+          <S.MovieItem
             key={item.id}
             as={motion.li}
             variants={M.SequentialItem}
@@ -186,17 +198,17 @@ const Popular = () => {
           >
             <S.CardLink to={`?movie=${item.id}`}>
               <figure>
-                <img src={`${makeImagePath(item.poster_path)}`} alt="" />
+                <img src={`${makeImagePath(item.poster_path as string)}`} alt="" />
                 <S.Caption>
                   <span>{item.title}</span>
                   <S.RatingStar title={`Vote Average : ${item.vote_average + ""}`}>
-                    {getVoteStar(item.vote_average).star}
-                    {getVoteStar(item.vote_average).half ? <S.HalfStar>⭐</S.HalfStar> : null}
+                    {getVoteStar(item.vote_average as number).star}
+                    {getVoteStar(item.vote_average as number).half ? <S.HalfStar>⭐</S.HalfStar> : null}
                   </S.RatingStar>
                 </S.Caption>
               </figure>
             </S.CardLink>
-          </ListItem>
+          </S.MovieItem>
         ))}
       </S.List>
       <AnimatePresence>
@@ -217,7 +229,7 @@ const Popular = () => {
                 <h3>{movie?.data?.title}</h3>
                 <p>{movie?.data?.overview}</p>
                 <ul>
-                  {movie?.data?.genres.map((item) => (
+                  {movie?.data?.genres?.map((item) => (
                     <li key={item.id}>{item.name}</li>
                   ))}
                 </ul>
